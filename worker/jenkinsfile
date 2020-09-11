@@ -1,0 +1,30 @@
+
+pipeline{
+    agent any
+    
+    tools{
+        'maven 3.6.3'
+    }
+    
+    stages{
+        stage(Build){
+            steps{
+                echo 'Building worker..'
+                sh 'mvn -f worker/pom.xml compile'
+            }
+        }
+        stage(Test){
+            steps{
+                echo 'Testing worker..'
+                sh 'mvn -f worker/pom.xml test'
+            }
+        }
+        stage(Packaging){
+            steps{
+                echo 'Packaging Worker'
+                sh 'mvn -f worker/pom.xml package -DskipTests'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            } 
+        }
+    }
+}
