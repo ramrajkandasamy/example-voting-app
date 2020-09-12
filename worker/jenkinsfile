@@ -9,19 +9,30 @@ pipeline{
     
    
     stages{
+   
         stage("Build"){
+            when{
+                changeset "**/worker/**"
+                }
             steps{
                 echo 'Building worker..'
                 sh 'mvn -f worker/pom.xml compile'
             }
         }
         stage("Test"){
+            when{
+                changeset "**/worker/**"
+                }
             steps{
                 echo 'Testing worker..'
                 sh 'mvn -f worker/pom.xml test'
             }
         }
         stage("Packaging"){
+            when{
+                changeset "**/worker/**"
+                branch 'master'
+                }
             steps{
                 echo 'Packaging Worker'
                 sh 'mvn -f worker/pom.xml package -DskipTests'

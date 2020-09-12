@@ -7,15 +7,25 @@ pipeline{
     
     stages{
         stage("Build"){
+            when{
+                changeset "**/vote/**"
+                }
             steps{
                 echo 'Building Vote..'
+                dir('vote'){
                 sh 'pip install -i requirements.txt'
+                }
             }
         }
         stage("Test"){
+            when{
+               changeset "**/vote/**"
+                }
             steps{
                 echo 'Testing vote..'
+                dir('vote'){
                 sh 'nosttests -v'
+                }
             }
         }
     }
