@@ -7,15 +7,25 @@ pipeline{
     
     stages{
         stage("Build"){
+            when{
+                changeset "**/result/**"
+                }
             steps{
                 echo 'Building result..'
+                dir('result'){
                 sh 'npm install'
+               }
             }
         }
         stage("Test"){
+            when{
+                changeset "**/result/**"
+                }
             steps{
                 echo 'Testing result..'
+                dir('result'){
                 sh 'npm test'
+               }
             }
         }
     }
