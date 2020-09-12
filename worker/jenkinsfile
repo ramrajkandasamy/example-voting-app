@@ -1,13 +1,15 @@
 
 pipeline{
-    agent any
+    agent{
+        docker{
+             image 'maven:3.6.1-jdk-8-slim'
+             args '-v $HOME/.m2:/root/.m2'
+              }
+         }    
     
-    tools{
-        maven 'maven 3.6.3'
-    }
-    
+   
     stages{
-        stage(Build){
+        stage("Build"){
             steps{
                 echo 'Building worker..'
                 sh 'mvn -f worker/pom.xml compile'
