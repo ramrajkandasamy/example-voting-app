@@ -1,0 +1,22 @@
+pipeline{
+    agent{
+        docker{
+            image 'python:2.7.16-slim'
+        }
+    }
+    
+    stages{
+        stage("Build"){
+            steps{
+                echo 'Building Vote..'
+                sh 'pip install -i requirements.txt'
+            }
+        }
+        stage("Test"){
+            steps{
+                echo 'Testing vote..'
+                sh 'nosttests -v'
+            }
+        }
+    }
+} 
