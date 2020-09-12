@@ -1,0 +1,26 @@
+
+pipeline{
+    agent any
+    
+    tools{
+        nodejs 'NodeJS14'
+    }
+    
+    stages{
+        stage("Build"){
+            steps{
+                echo 'Building result..'
+                sh 'npm install'
+            }
+        }
+        stage("Test"){
+            steps{
+                echo 'Testing result..'
+                sh 'npm test'
+            }
+        }
+        post{
+            echo 'multibranch pipeline for result is completed'
+        }
+    }
+}
