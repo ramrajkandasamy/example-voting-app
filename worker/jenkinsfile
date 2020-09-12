@@ -3,23 +3,23 @@ pipeline{
     agent any
     
     tools{
-        'maven 3.6.3'
+        maven 'maven 3.6.3'
     }
     
     stages{
-        stage(Build){
+        stage("Build"){
             steps{
                 echo 'Building worker..'
                 sh 'mvn -f worker/pom.xml compile'
             }
         }
-        stage(Test){
+        stage("Test"){
             steps{
                 echo 'Testing worker..'
                 sh 'mvn -f worker/pom.xml test'
             }
         }
-        stage(Packaging){
+        stage("Packaging"){
             steps{
                 echo 'Packaging Worker'
                 sh 'mvn -f worker/pom.xml package -DskipTests'
