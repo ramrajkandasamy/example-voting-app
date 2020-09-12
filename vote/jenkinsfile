@@ -2,6 +2,7 @@ pipeline{
     agent{
         docker{
             image 'python:2.7.16-slim'
+            args '-u root'
         }
     }
     
@@ -24,7 +25,7 @@ pipeline{
             steps{
                 echo 'Testing vote..'
                 dir('vote'){
-                sh 'nosttests -v'
+                sh 'nosetests -v'
                 }
             }
         }
