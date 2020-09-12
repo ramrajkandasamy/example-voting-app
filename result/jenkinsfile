@@ -1,4 +1,3 @@
-
 pipeline{
     agent any
     
@@ -18,9 +17,6 @@ pipeline{
                 echo 'Testing result..'
                 sh 'npm test'
             }
-        }
-        post{
-            echo 'multibranch pipeline for result is completed'
         }
     }
 }
