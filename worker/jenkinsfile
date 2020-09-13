@@ -1,16 +1,16 @@
 
 pipeline{
-    agent{
-        docker{
+    agent none
+    
+    stages{
+        stage("Build"){
+                agent{
+                  docker{
              image 'maven:3.6.1-jdk-8-slim'
              args '-v $HOME/.m2:/root/.m2'
               }
          }    
     
-   
-    stages{
-   
-        stage("Build"){
             when{
                 changeset "**/worker/**"
                 }
@@ -23,6 +23,13 @@ pipeline{
             when{
                 changeset "**/worker/**"
                 }
+                    agent{
+        docker{
+             image 'maven:3.6.1-jdk-8-slim'
+             args '-v $HOME/.m2:/root/.m2'
+              }
+         }    
+    
             steps{
                 echo 'Testing worker..'
                 sh 'mvn -f worker/pom.xml test'
@@ -33,6 +40,13 @@ pipeline{
                 changeset "**/worker/**"
                 branch 'master'
                 }
+                    agent{
+        docker{
+             image 'maven:3.6.1-jdk-8-slim'
+             args '-v $HOME/.m2:/root/.m2'
+              }
+         }    
+    
             steps{
                 echo 'Packaging Worker'
                 sh 'mvn -f worker/pom.xml package -DskipTests'
@@ -40,6 +54,7 @@ pipeline{
             } 
         }
         stage('docker-package'){
+           agent any
            when{
                changeset "**/worker/**"
                branch 'master' 
