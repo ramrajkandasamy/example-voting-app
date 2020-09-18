@@ -1,0 +1,39 @@
+version: '3'
+networks:
+  vote:
+    driver: bridge
+volumes:
+  db-data: null
+services:
+  vote:
+    image: ramrajkandasamy/vote:master
+    ports:
+      - 80
+    networks:
+      - vote
+    depends_on:
+      - redis
+  redis:
+    image: 'redis:alpine'
+    networks:
+      - vote
+  worker:
+    image: 'ramrajkandasamy/worker:master'
+    networks:
+      - vote
+    depends_on:
+      - redis
+  db:
+    image: 'postgres:9.4'
+    networks:
+      - vote
+    volumes:
+      - 'db-data:/var/lib/postgresql/data'
+  results:
+    image: ramrajkandasamy/results:master
+    ports:
+      - '5001:80'
+    depends_on:
+      - db
+    networks:
+      - vote
