@@ -50,7 +50,8 @@ pipeline{
                 echo 'Packaging Worker'
                 sh 'mvn -f worker/pom.xml package -DskipTests'
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            } 
+            }
+ 
         }
         stage('docker-package'){
            agent any

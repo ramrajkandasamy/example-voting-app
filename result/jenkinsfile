@@ -27,6 +27,7 @@ pipeline {
       when {
         changeset "**/result/**"
       }
+
       steps {
         echo 'Testing result..'
         dir('result') {
